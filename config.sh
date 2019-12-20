@@ -92,3 +92,9 @@ function run_tests {
     fi
     return $ret
 }
+function repair_wheelhouse {
+    local wheelhouse=$1
+    install_delocate
+    delocate-listdeps $wheelhouse/*.whl
+    delocate-wheel $wheelhouse/*.whl # copies library dependencies into wheel
+}
