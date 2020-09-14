@@ -17,6 +17,35 @@ LIBWEBP_VERSION=1.1.0
 BZIP2_VERSION=1.0.8
 LIBXCB_VERSION=1.14
 
+
+function fill_pyver {
+    # Convert major or major.minor format to major.minor.micro
+    #
+    # Hence:
+    # 2 -> 2.7.11  (depending on LATEST_2p7 value)
+    # 2.7 -> 2.7.11  (depending on LATEST_2p7 value)
+    local ver=$1
+    check_var $ver
+    if [[ $ver =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
+        # Major.minor.micro format already
+        echo $ver
+    elif [ $ver == 2 ] || [ $ver == "2.7" ]; then
+        echo $LATEST_2p7
+    elif [ $ver == 3 ] || [ $ver == "3.7" ]; then
+        echo $LATEST_3p7
+    elif [ $ver == "3.6" ]; then
+        echo $LATEST_3p6
+    elif [ $ver == "3.5" ]; then
+        echo $LATEST_3p5
+    elif [ $ver == "3.8" ]; then
+        echo $LATEST_3p8
+    elif [ $ver == "3.9" ]; then
+        echo "3.9.0rc1"
+    else
+        echo "Can't fill version $ver" 1>&2
+        exit 1
+    fi
+}
 function pre_build {
     # Any stuff that you need to do before you start building the wheels
     # Runs in the root directory of this repository.
