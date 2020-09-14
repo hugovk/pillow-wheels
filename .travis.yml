@@ -16,29 +16,6 @@ services: docker
 
 jobs:
   include:
-    - name: "3.9 macOS"
-      os: osx
-      osx_image: xcode9.3
-      language: generic
-      env:
-        - MB_PYTHON_VERSION=3.9
-    - name: "3.9 Xenial"
-      os: linux
-      env:
-        - MB_PYTHON_VERSION=3.9
-    - name: "3.9 Xenial 32-bit"
-      os: linux
-      env:
-        - MB_PYTHON_VERSION=3.9
-        - PLAT=i686
-    - name: "3.9 Xenial aarch64"
-      os: linux
-      arch: arm64
-      env:
-        - PLAT=aarch64
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.9
-        - DOCKER_TEST_IMAGE=multibuild/xenial_{PLAT}
     - name: "3.9 macOS latest"
       os: osx
       osx_image: xcode9.3

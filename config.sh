@@ -33,6 +33,7 @@ function pre_build {
         BUILD_PREFIX=`dirname $(dirname $(which python))`
         PKG_CONFIG_PATH="$BUILD_PREFIX/lib/pkgconfig"
     fi
+    cp archives/xcb-proto-1.14.tar.gz $ARCHIVE_SDIR
     build_simple xcb-proto $LIBXCB_VERSION https://xcb.freedesktop.org/dist
     if [ -n "$IS_OSX" ]; then
         build_simple xproto 7.0.31 https://www.x.org/pub/individual/proto
