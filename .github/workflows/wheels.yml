@@ -57,7 +57,9 @@ jobs:
         with:
           python-version: 3.9
       - name: pip cache info
-        run:  pip cache info
+        run: |
+          pip cache info
+          pip cache list
       - name: Get pip cache dir
         id: pip-cache
         run: |
@@ -70,7 +72,9 @@ jobs:
           restore-keys: |
             ${{ matrix.os-name }}-${{ matrix.python }}-pip-
       - name: pip cache info
-        run:  pip cache info
+        run: |
+          pip cache info
+          pip cache list
       - name: Build Wheel
         run: .github/workflows/build.sh
       - uses: actions/upload-artifact@v2
@@ -78,7 +82,9 @@ jobs:
           name: wheels
           path: wheelhouse/*.whl
       - name: pip cache info
-        run:  pip cache info
+        run: |
+          pip cache info
+          pip cache list
       # Uncomment to get SSH access for testing
       # - name: Setup tmate session
       #   if: failure()
@@ -132,7 +138,9 @@ jobs:
         with:
           python-version: 3.9
       - name: pip cache info
-        run:  pip cache info
+        run: |
+          pip cache info
+          pip cache list
       - name: Get pip cache dir
         id: pip-cache
         run: |
@@ -145,7 +153,9 @@ jobs:
           restore-keys: |
             ${{ matrix.os-name }}-${{ matrix.python }}-pip-
       - name: pip cache info
-        run:  pip cache info
+        run: |
+          pip cache info
+          pip cache list
       - name: Build Wheel
         run: .github/workflows/build.sh
       - uses: actions/upload-artifact@v2
@@ -153,7 +163,9 @@ jobs:
           name: wheels-latest
           path: wheelhouse/*.whl
       - name: pip cache info
-        run:  pip cache info
+        run: |
+          pip cache info
+          pip cache list
 
   release:
     name: Create Release
