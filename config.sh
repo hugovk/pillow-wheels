@@ -13,14 +13,14 @@ XZ_VERSION=5.2.6
 TIFF_VERSION=4.4.0
 LCMS2_VERSION=2.13.1
 if [[ -n "$IS_MACOS" ]]; then
-    GIFLIB_VERSION=5.1.4
+    GIFLIB_VERSION=5.1.4  # no-auto-bump
 else
     GIFLIB_VERSION=5.2.1
 fi
 if [[ -n "$IS_MACOS" ]] || [[ "$MB_ML_VER" != 2014 ]]; then
     ZLIB_VERSION=1.2.12
 else
-    ZLIB_VERSION=1.2.8
+    ZLIB_VERSION=1.2.8  # no-auto-bump
 fi
 LIBWEBP_VERSION=1.2.4
 BZIP2_VERSION=1.0.8
