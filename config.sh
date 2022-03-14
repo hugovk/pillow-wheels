@@ -13,11 +13,11 @@ XZ_VERSION=5.2.5
 TIFF_VERSION=4.3.0
 LCMS2_VERSION=2.13.1
 if [[ -n "$IS_MACOS" ]]; then
-    GIFLIB_VERSION=5.1.4
+    GIFLIB_VERSION=5.1.4  # no-auto-bump
     ZLIB_VERSION=1.2.11
 else
     GIFLIB_VERSION=5.2.1
-    ZLIB_VERSION=1.2.8
+    ZLIB_VERSION=1.2.8  # no-auto-bump
 fi
 LIBWEBP_VERSION=1.2.2
 BZIP2_VERSION=1.0.8
@@ -94,7 +94,7 @@ function pre_build {
     build_libjpeg_turbo
 
     if [[ -n "$IS_MACOS" ]]; then
-        TIFF_VERSION=4.2.0
+        TIFF_VERSION=4.2.0  # no-auto-bump
     fi
     build_tiff
     if [ -n "$IS_MACOS" ]; then
