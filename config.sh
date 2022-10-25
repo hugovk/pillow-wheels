@@ -5,11 +5,11 @@ ARCHIVE_SDIR=pillow-depends-main
 
 # Package versions for fresh source builds
 FREETYPE_VERSION=2.12.1
-HARFBUZZ_VERSION=5.1.0
-LIBPNG_VERSION=1.6.37
+HARFBUZZ_VERSION=5.3.1
+LIBPNG_VERSION=1.6.38
 JPEGTURBO_VERSION=2.1.4
 OPENJPEG_VERSION=2.5.0
-XZ_VERSION=5.2.6
+XZ_VERSION=5.2.7
 TIFF_VERSION=4.4.0
 LCMS2_VERSION=2.13.1
 if [[ -n "$IS_MACOS" ]]; then
@@ -18,13 +18,14 @@ else
     GIFLIB_VERSION=5.2.1
 fi
 if [[ -n "$IS_MACOS" ]] || [[ "$MB_ML_VER" != 2014 ]]; then
-    ZLIB_VERSION=1.2.12
+    ZLIB_VERSION=1.2.13
 else
     ZLIB_VERSION=1.2.8  # no-auto-bump
 fi
 LIBWEBP_VERSION=1.2.4
 BZIP2_VERSION=1.0.8
-LIBXCB_VERSION=1.14
+LIBXCB_VERSION=1.15
+BROTLI_VERSION=1.0.9
 
 if [[ -n "$IS_MACOS" ]] && [[ "$PLAT" == "x86_64" ]]; then
     function build_openjpeg {
@@ -36,6 +37,18 @@ if [[ -n "$IS_MACOS" ]] && [[ "$PLAT" == "x86_64" ]]; then
     }
 fi
 
+function build_brotli {
+    local cmake=$(get_modern_cmake)
+    local out_dir=$(fetch_unpack https://github.com/google/brotli/archive/v$BROTLI_VERSION.tar.gz)
+    (cd $out_dir \
+        && $cmake -DCMAKE_INSTALL_PREFIX=$BUILD_PREFIX -DCMAKE_INSTALL_NAME_DIR=$BUILD_PREFIX/lib . \
+        && make install)
+    if [[ "$MB_ML_LIBC" == "manylinux" ]] && [[ "$PLAT" == "x86_64" ]]; then
+        cp /usr/local/lib64/libbrotli* /usr/local/lib
+        cp /usr/local/lib64/pkgconfig/libbrotli* /usr/local/lib/pkgconfig
+    fi
+}
+
 function pre_build {
     # Any stuff that you need to do before you start building the wheels
     # Runs in the root directory of this repository.
@@ -46,11 +59,6 @@ function pre_build {
     if [ -z "$IS_ALPINE" ] && [ -z "$IS_MACOS" ]; then
         yum remove -y zlib-devel
     fi
-
-    if [[ -n "$IS_MACOS" ]]; then
-        # Workaround for zlib 1.2.12
-        export cc=$CC
-    fi
     build_new_zlib
 
     if [ -n "$IS_MACOS" ]; then
@@ -59,14 +67,14 @@ function pre_build {
         BUILD_PREFIX=`dirname $(dirname $(which python))`
         PKG_CONFIG_PATH="$BUILD_PREFIX/lib/pkgconfig"
     fi
-    build_simple xcb-proto 1.14.1 https://xcb.freedesktop.org/dist
+    build_simple xcb-proto 1.15.2 https://xcb.freedesktop.org/dist
     if [ -n "$IS_MACOS" ]; then
-        build_simple xorgproto 2021.4 https://www.x.org/pub/individual/proto
-        cp venv/share/pkgconfig/xproto.pc venv/lib/pkgconfig/xproto.pc
-        build_simple libXau 1.0.9 https://www.x.org/pub/individual/lib
+        build_simple xorgproto 2022.2 https://www.x.org/pub/individual/proto
+        build_simple libXau 1.0.10 https://www.x.org/pub/individual/lib
         build_simple libpthread-stubs 0.4 https://xcb.freedesktop.org/dist
+        cp venv/share/pkgconfig/xcb-proto.pc venv/lib/pkgconfig/xcb-proto.pc
     else
-        sed -i s/\${pc_sysrootdir\}// /usr/local/lib/pkgconfig/xcb-proto.pc
+        sed s/\${pc_sysrootdir\}// /usr/local/share/pkgconfig/xcb-proto.pc > /usr/local/lib/pkgconfig/xcb-proto.pc
     fi
     build_simple libxcb $LIBXCB_VERSION https://xcb.freedesktop.org/dist
     if [ -n "$IS_MACOS" ]; then
@@ -92,9 +100,11 @@ function pre_build {
     build_libwebp
     CFLAGS=$ORIGINAL_CFLAGS
 
+    build_brotli
+
     if [ -n "$IS_MACOS" ]; then
         # Custom freetype build
-        build_simple freetype $FREETYPE_VERSION https://download.savannah.gnu.org/releases/freetype tar.gz --with-harfbuzz=no --with-brotli=no
+        build_simple freetype $FREETYPE_VERSION https://download.savannah.gnu.org/releases/freetype tar.gz --with-harfbuzz=no
     else
         build_freetype
     fi
@@ -117,14 +127,9 @@ function pre_build {
 }
 
 function pip_wheel_cmd {
-    git clone https://github.com/pypa/auditwheel
-    (cd auditwheel && git checkout fe45465 && pipx install --force .)
-
     local abs_wheelhouse=$1
     if [ -z "$IS_MACOS" ]; then
         CFLAGS="$CFLAGS --std=c99"  # for Raqm
-    elif [[ "$MB_PYTHON_VERSION" == "3.11" ]]; then
-        unset _PYTHON_HOST_PLATFORM
     fi
     pip wheel $(pip_opts) \
         --global-option build_ext --global-option --enable-raqm \
