@@ -3,7 +3,12 @@ Pillow Wheel Builder
 
 .. raw:: html
 
-    <h1>Pillow wheel building <a href="https://github.com/python-pillow/Pillow/pull/7690">moved to Pillow repository</a></h1>
+
+.. raw:: html
+
+   <div style="background-color: #ffeb3b; padding: 10px; border-left: 5px solid #f57c00; font-family: Arial, sans-serif; font-size: 14px;">
+       <strong>Note:</strong> Pillow wheel building <a href="https://github.com/python-pillow/Pillow/pull/7690">moved to Pillow repository</a>.
+   </div>
 
 This repository creates wheels for tagged versions of Pillow::
 
