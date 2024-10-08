@@ -1,11 +1,11 @@
 Pillow Wheel Builder
 ====================
 
-.. raw:: html
+|
 
-   <blockquote>
-       <strong>Note:</strong> This is an important alert message. Please pay attention to this information.
-   </blockquote>
+> Moved to https://github.com/python-pillow/Pillow/pull/7690
+
+|
 
 
 This repository creates wheels for tagged versions of Pillow::
