@@ -3,7 +3,7 @@ Pillow Wheel Builder
 
 |
 
-    **Note** Pillow wheel builder <a href="https://github.com/python-pillow/Pillow/pull/7690">moved to Pillow repository</a>.
+    **Note** Pillow wheel builder moved to Pillow repository in https://github.com/python-pillow/Pillow/pull/7690.
 
 |
 
