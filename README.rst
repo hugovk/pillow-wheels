@@ -3,7 +3,7 @@ Pillow Wheel Builder
 
 |
 
-> Moved to https://github.com/python-pillow/Pillow/pull/7690
+    Moved to https://github.com/python-pillow/Pillow/pull/7690
 
 |
 
