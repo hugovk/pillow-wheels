@@ -1,6 +1,9 @@
 Pillow Wheel Builder
 ====================
 
+> [!NOTE]
+> Pillow wheel building [moved to Pillow](https://github.com/python-pillow/Pillow/pull/7690)
+
 This repository creates wheels for tagged versions of Pillow::
 
     ./update-pillow-tag.sh <VERSION>
