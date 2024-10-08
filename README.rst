@@ -3,7 +3,7 @@ Pillow Wheel Builder
 
 .. raw:: html
 
-<h1>Pillow wheel building <a href="https://github.com/python-pillow/Pillow/pull/7690">moved to Pillow repository</a></h1>
+    <h1>Pillow wheel building <a href="https://github.com/python-pillow/Pillow/pull/7690">moved to Pillow repository</a></h1>
 
 This repository creates wheels for tagged versions of Pillow::
 
