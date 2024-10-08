@@ -1,9 +1,12 @@
 Pillow Wheel Builder
 ====================
 
-.. warning:: 
+.. raw:: html
 
-    warn
+   <blockquote>
+       <strong>Note:</strong> This is an important alert message. Please pay attention to this information.
+   </blockquote>
+
 
 This repository creates wheels for tagged versions of Pillow::
 
