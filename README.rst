@@ -1,8 +1,9 @@
 Pillow Wheel Builder
 ====================
 
-> [!NOTE]
-> Pillow wheel building [moved to Pillow](https://github.com/python-pillow/Pillow/pull/7690)
+.. raw:: html
+
+<h1>Pillow wheel building <a href="https://github.com/python-pillow/Pillow/pull/7690">moved to Pillow repository</a></h1>
 
 This repository creates wheels for tagged versions of Pillow::
 
